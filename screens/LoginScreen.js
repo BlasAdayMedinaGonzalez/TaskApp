@@ -1,6 +1,7 @@
 import { View, Text, Image, Pressable, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+const bcrypt = require("bcryptjs")
 
 import Constants from '../constants/constants';
 import Back from '../assets/back.png'
@@ -8,13 +9,22 @@ import Back from '../assets/back.png'
 export default function LoginScreen({username,setUsername,password,setPassword}) {
     const navigation = useNavigation();
 
-    const validateUser =(user, pass) => {
+    const validateUser = async(user, pass) => {
       fetch(Constants.urlUser + user)
         .then(res => res.json())
         .then(res => {
-          if (res.data.password === pass) {
+          console.log(pass, res.data.password)
+          if (user === "" && password === "") {
+            navigation.navigate("Login");
+          } else if (bcrypt.compare(pass, res.data.password)) {
             navigation.navigate('TabsBottom', {screen: "Home"});
           }
+          
+          // bcrypt.compare(pass, res.data.password).catch((error) => console.log(error))
+          // navigation.navigate('TabsBottom', {screen: "Home"});
+          // if (res.data.password === pass) {
+          //   navigation.navigate('TabsBottom', {screen: "Home"});
+          // }
         })
         .catch(error =>console.log("Usuario o contraseña incorrecto" + error));
     }
