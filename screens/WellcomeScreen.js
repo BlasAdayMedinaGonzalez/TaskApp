@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import {useNavigation} from '@react-navigation/native';
 
 export default function WellcomeScreen() {
@@ -7,18 +7,18 @@ export default function WellcomeScreen() {
   return (
     <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
         <View style={styles.centered}>
-        <Pressable
+        <TouchableOpacity
             style={styles.button1}
             onPress={() => navigation.navigate('Login')}
         >
             <Text style={styles.buttonText1}>Login</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
             style={styles.button2}
             onPress={() => navigation.navigate('Register')}
         >
             <Text style={styles.buttonText2}>Register</Text>
-        </Pressable>
+        </TouchableOpacity>
         </View>
     </View>
   );

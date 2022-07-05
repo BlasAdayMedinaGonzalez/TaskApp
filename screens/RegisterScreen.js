@@ -2,44 +2,81 @@ import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet } from 'reac
 import React, {useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 
+import Constants from '../constants/constants';
 import Back from '../assets/back.png'
 
 export default function RegisterScreen() {
     const navigation = useNavigation();
 
+    const [name, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    
+    const onSignUpPressed = () => {
+      const submitUser = {
+        name,
+        email,
+        password
+      }
+      fetch(Constants.urlGetAllUsers, {
+        method: 'POST',
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify(submitUser),
+      })
+      .then(res => res.json())
+      .catch(error => console.error('Error:', error))
+      .then(response => 
+        console.log('Success:', response),
+        navigation.navigate('TabsBottom', {screen: "Home"})
+      );
+    }
+
     return (
         <View style={styles.root}>
-          <TouchableOpacity style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate('Wellcome')}>
-            <Image source={Back} style={{width: 25, height: 25}}/>
-          </TouchableOpacity>
-          
-          <View style={styles.input}>
-            <TextInput
-              placeholder='User'
-              onChangeText={"(username) => {setUsername(username)}"}
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              placeholder='Email'
-              onChangeText={"(email) => setEmail(email)"}
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-            secureTextEntry
-              placeholder='Password'
-              onChangeText={"(passwords) => setPasswords(passwords)"}
-            />
-          </View>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TabsBottom', {screen: "Home"})}>
-            <Text style={styles.text}>Register</Text>
-          </TouchableOpacity>
-          <View style={{flexDirection:'row', marginTop: 20, alignSelf: 'flex-start'}}>
-            <Text>Already have an account?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.link}>Login</Text>
+
+          <View style={styles.loginCase}>
+
+            <TouchableOpacity style={{alignSelf: 'flex-start'}} onPress={() => navigation.navigate('Wellcome')}>
+              <Image source={Back} style={{width: 25, height: 25}}/>
             </TouchableOpacity>
+
+            <View style={{alignItems: "center"}}>
+              <Text style={styles.tittle}>REGISTER</Text>
+            </View>
+
+            <View style={styles.input}>
+              <TextInput
+                placeholder='User'
+                onChangeText={(textWritting) => setUsername(textWritting)}
+              />
+            </View>
+
+            <View style={styles.input}>
+              <TextInput
+                placeholder='Email'
+                onChangeText={(textWritting) => setEmail(textWritting)}
+              />
+            </View>
+
+            <View style={styles.input}>
+              <TextInput
+              secureTextEntry
+                placeholder='Password'
+                onChangeText={(textWritting) => setPassword(textWritting)}
+              />
+            </View>
+
+            <TouchableOpacity style={styles.button} onPress={() => onSignUpPressed()}>
+              <Text style={styles.text}>Register</Text>
+            </TouchableOpacity>
+
+            <View style={{flexDirection:'row', marginTop: 20, alignSelf: 'flex-start'}}>
+              <Text>Already have an account?</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                  <Text style={styles.link}>Login</Text>
+              </TouchableOpacity>
+            </View>
+            
           </View>
         </View>
     )
@@ -47,9 +84,20 @@ export default function RegisterScreen() {
 
 const styles = StyleSheet.create({
     root: {
+      flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
       padding: 20
+    },
+    loginCase:{
+      paddingVertical: 80, 
+      paddingHorizontal: 40,
+      marginBottom: 90,
+      borderColor: 'black',
+      borderWidth: 1,
+      borderRadius: 5,
+    },
+    tittle: {
+      fontWeight: 'bold',
     },
     input: {
       width: '100%',
@@ -76,7 +124,7 @@ const styles = StyleSheet.create({
       color: 'white',
     },
     link: {
-        color: "blue",
-        marginLeft: 5
+      color: "blue",
+      marginLeft: 5
     }
 })

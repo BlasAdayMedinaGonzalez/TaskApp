@@ -1,3 +1,4 @@
+import React, {useState} from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 
 import WellcomeScreen from "../screens/WellcomeScreen";
@@ -8,8 +9,11 @@ import TabsBottom from "../navigation/TabsBottom";
 const Stack = createStackNavigator();
 
 export default function navigation() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
-    <Stack.Navigator initialRouteName="WellcomeScreen">
+    <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
         name="Wellcome"
         options={{
@@ -20,15 +24,23 @@ export default function navigation() {
       <Stack.Screen
         name="Login"
         options={{
+          headerShown: false,
           tabBarStyle: { display: "none" },
           tabBarButton: () => null,
           tabBarVisible: false,
         }}
-        children={() => <LoginScreen />}
+        children={() => 
+          <LoginScreen 
+            username={username} 
+            password={password}
+            setUsername={setUsername}
+            setPassword={setPassword}
+        />}
       />
       <Stack.Screen
         name="Register"
         options={{
+          headerShown: false,
           tabBarStyle: { display: "none" },
           tabBarButton: () => null,
           tabBarVisible: false,
@@ -40,7 +52,7 @@ export default function navigation() {
         options={{
           headerShown: false,
         }}
-        component={TabsBottom}
+        children={() => TabsBottom({username, setUsername, setPassword})}
       />
     </Stack.Navigator>
   );
