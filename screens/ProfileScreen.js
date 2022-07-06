@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react'
 import {Text, View, StyleSheet} from 'react-native';
 
 export default function ProfileScreen ({username}) {
-  const [users, setusers]  = useState([]);
 
   return (
     <View style={styles.root}>

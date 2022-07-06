@@ -1,11 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import {useNavigation} from '@react-navigation/native';
+
 
 export default function WellcomeScreen() {
   const navigation = useNavigation();
   return (
     <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
+        <View style={{flex: 1, flexDirection: 'column', justifyContent:"center", alignItems: 'center'}}>
+          <Text style={{marginBottom: 10}}>Bienvenido a la aplicación de Tareas</Text>
+          <Image source={require('../assets/tarea.png')} style={{width: 200, height: 200}} />
+        </View>
         <View style={styles.centered}>
         <TouchableOpacity
             style={styles.button1}

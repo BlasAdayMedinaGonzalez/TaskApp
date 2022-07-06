@@ -5,16 +5,15 @@ import { useNavigation } from '@react-navigation/native';
 import Constants from '../constants/constants';
 import Back from '../assets/back.png'
 
-export default function RegisterScreen() {
+export default function RegisterScreen({username, setUsername}) {
     const navigation = useNavigation();
 
-    const [name, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
     const onSignUpPressed = () => {
       const submitUser = {
-        name,
+        name: username,
         email,
         password
       }
@@ -24,11 +23,17 @@ export default function RegisterScreen() {
         body: JSON.stringify(submitUser),
       })
       .then(res => res.json())
+      .then(response => {
+          if (response.message === 'Bad request. Please fill all fields.') {
+            navigation.navigate("Register")
+          } else {
+            navigation.navigate('TabsBottom', {screen: "Home"})
+          }
+          
+        }
+        
+      )
       .catch(error => console.error('Error:', error))
-      .then(response => 
-        console.log('Success:', response),
-        navigation.navigate('TabsBottom', {screen: "Home"})
-      );
     }
 
     return (

@@ -10,21 +10,15 @@ export default function LoginScreen({username,setUsername,password,setPassword})
     const navigation = useNavigation();
 
     const validateUser = async(user, pass) => {
-      fetch(Constants.urlUser + user)
+      fetch(Constants.urlGetAllUsers + user)
         .then(res => res.json())
         .then(res => {
-          console.log(pass, res.data.password)
           if (user === "" && password === "") {
             navigation.navigate("Login");
           } else if (bcrypt.compare(pass, res.data.password)) {
             navigation.navigate('TabsBottom', {screen: "Home"});
           }
           
-          // bcrypt.compare(pass, res.data.password).catch((error) => console.log(error))
-          // navigation.navigate('TabsBottom', {screen: "Home"});
-          // if (res.data.password === pass) {
-          //   navigation.navigate('TabsBottom', {screen: "Home"});
-          // }
         })
         .catch(error =>console.log("Usuario o contraseña incorrecto" + error));
     }

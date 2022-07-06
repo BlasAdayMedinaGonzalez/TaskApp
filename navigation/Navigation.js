@@ -45,7 +45,11 @@ export default function navigation() {
           tabBarButton: () => null,
           tabBarVisible: false,
         }}
-        children={() => <RegisterScreen />}
+        children={() => <RegisterScreen
+          username={username} 
+          setUsername={setUsername}
+          />
+        }
       />
       <Stack.Screen
         name="TabsBottom"
