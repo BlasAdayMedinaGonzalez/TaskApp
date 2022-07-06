@@ -91,29 +91,26 @@ const styles = StyleSheet.create({
     root: {
       flex: 1,
       justifyContent: 'center',
-      padding: 20
+      padding: 20,
+      backgroundColor: "aqua"
     },
     loginCase:{
       paddingVertical: 80, 
-      paddingHorizontal: 40,
+      paddingHorizontal: 10,
       marginBottom: 90,
-      borderColor: 'black',
-      borderWidth: 1,
-      borderRadius: 5,
+      borderColor: 'black'
     },
     tittle: {
       fontWeight: 'bold',
     },
     input: {
-      width: '100%',
-      height: 30,
+      height: 50,
       borderColor: 'black',
       borderWidth: 2,
       borderRadius: 5,
       paddingHorizontal: 10,
-      marginVertical: 10,
+      marginVertical: 15,
       justifyContent: 'center',
-      color: 'black'
     },
     button: {
       width: '100%',
@@ -121,8 +118,8 @@ const styles = StyleSheet.create({
       marginVertical: 5,
       alignItems: 'center',
       borderRadius: 5, 
-  
-      backgroundColor: '#35AAF2'
+      backgroundColor: '#35AAF2',
+      elevation: 15,
     },
     text: {
       fontWeight: 'bold',

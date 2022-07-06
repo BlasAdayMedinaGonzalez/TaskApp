@@ -6,62 +6,65 @@ import {useNavigation} from '@react-navigation/native';
 export default function WellcomeScreen() {
   const navigation = useNavigation();
   return (
-    <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
-        <View style={{flex: 1, flexDirection: 'column', justifyContent:"center", alignItems: 'center'}}>
-          <Text style={{marginBottom: 10}}>Bienvenido a la aplicación de Tareas</Text>
+    <View style={styles.root}>
+        <View style={{flex: 1, justifyContent:"center", alignItems: 'center'}}>
+          <Text style={{marginBottom: 15, fontWeight: "bold"}}>Wellcome to the Task app</Text>
           <Image source={require('../assets/tarea.png')} style={{width: 200, height: 200}} />
         </View>
-        <View style={styles.centered}>
-        <TouchableOpacity
+        <View style={styles.centeredButtons}>
+          <TouchableOpacity
             style={styles.button1}
             onPress={() => navigation.navigate('Login')}
-        >
+          >
             <Text style={styles.buttonText1}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.button2}
             onPress={() => navigation.navigate('Register')}
-        >
+          >
             <Text style={styles.buttonText2}>Register</Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    centered: {
-      flexDirection: "row",
-      justifyContent: "space-around",
-      padding: 22,
-      marginTop: 22,
-    },
-    viewText: {
-      marginBottom: 20,
-      borderWidth: 2,
-      borderRadius: 5,
-      padding: 2,
-    },
-    button1: {
-      padding: 10,
-      width: 100,
-      backgroundColor: "white",
-      borderRadius: 5
-    },
-    button2: {
-        padding: 10,
-        width: 100,
-        backgroundColor: "#2196F3",
-        borderRadius: 5,
-    },
-    buttonText1: {
-      fontWeight: "bold",
-      color: "black",
-      textAlign: "center"
-    },
-    buttonText2: {
-        fontWeight: "bold",
-        color: "white",
-        textAlign: "center"
-    }
+  root: {
+    flex: 1, 
+    backgroundColor: "aqua"
+  },
+  centeredButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 22,
+    
+  },
+  button1: {
+    padding: 10,
+    width: 120,
+    backgroundColor: "white",
+    borderRadius: 5,
+    justifyContent: 'center',
+    elevation: 15,
+  },
+  button2: {
+    padding: 10,
+    width: 120,
+    backgroundColor: "#2196F3",
+    borderRadius: 5,
+    justifyContent: 'center',
+    shadowOpacity: 1.5,
+    elevation: 15,
+  },
+  buttonText1: {
+    fontWeight: "bold",
+    color: "black",
+    textAlign: "center"
+  },
+  buttonText2: {
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center"
+  }
 });

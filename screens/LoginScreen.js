@@ -26,11 +26,11 @@ export default function LoginScreen({username,setUsername,password,setPassword})
     return (
         <View style={styles.root}>
           
-          <View style={styles.loginCase}>
-            <TouchableOpacity style={{ alignSelf: 'flex-start' }} onPress={() => navigation.navigate('Wellcome')}>
-              <Image source={Back} style={{ width: 25, height: 25 }} />
-            </TouchableOpacity>
 
+          <View style={styles.loginCase}>
+            <TouchableOpacity onPress={() => navigation.navigate('Wellcome')}>
+                <Image source={Back} style={{ width: 25, height: 25 }} />
+            </TouchableOpacity>
             <View style={{alignItems: "center"}}>
               <Text style={styles.tittle}>LOGIN</Text>
             </View>
@@ -67,29 +67,26 @@ const styles = StyleSheet.create({
     root: {
       flex: 1,
       justifyContent: 'center',
-      padding: 20
+      padding: 10,
+      backgroundColor: "aqua"
     },
     loginCase:{
       paddingVertical: 80, 
-      paddingHorizontal: 40,
+      paddingHorizontal: 10,
       marginBottom: 90,
-      borderColor: 'black',
-      borderWidth: 1,
-      borderRadius: 5,
+      borderColor: 'black'
     },
     tittle: {
       fontWeight: 'bold',
     },
     input: {
-      width: '100%',
-      height: 30,
+      height: 50,
       borderColor: 'black',
       borderWidth: 2,
       borderRadius: 5,
       paddingHorizontal: 10,
-      marginVertical: 10,
+      marginVertical: 15,
       justifyContent: 'center',
-      color: 'black'
     },
     button: {
       width: '100%',
@@ -97,8 +94,8 @@ const styles = StyleSheet.create({
       marginVertical: 5,
       alignItems: 'center',
       borderRadius: 5,
-  
-      backgroundColor: '#35AAF2'
+      backgroundColor: '#35AAF2',
+      elevation: 15,
     },
     text: {
       fontWeight: 'bold',
@@ -115,7 +112,7 @@ const styles = StyleSheet.create({
       textAlign: "center"
     },
     link: {
-        color: "blue",
-        marginLeft: 5
+      color: "blue",
+      marginLeft: 5
     }
 })
