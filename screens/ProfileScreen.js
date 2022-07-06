@@ -7,6 +7,7 @@ export default function ProfileScreen ({username}) {
     <View style={styles.root}>
       <View style={styles.item}>
         <Text style={styles.itemText}>Nombre perfil: {username}</Text>
+        <Text style={styles.itemText}>Correo: </Text>
       </View>
     </View>
     

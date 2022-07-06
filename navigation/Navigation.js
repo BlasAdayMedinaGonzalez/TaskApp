@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 
 import WellcomeScreen from "../screens/WellcomeScreen";
@@ -11,6 +11,13 @@ const Stack = createStackNavigator();
 export default function navigation() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [homeData, setHomeData] = useState([]);
+  const [profileData, setProfileData] = useState([]);
+
+  useEffect(() => {
+
+  },[])
 
   return (
     <Stack.Navigator initialRouteName="Home">
@@ -19,44 +26,21 @@ export default function navigation() {
         options={{
           headerShown: false,
         }}
-        children={() => <WellcomeScreen />}
-      />
-      <Stack.Screen
-        name="Login"
-        options={{
-          headerShown: false,
-          tabBarStyle: { display: "none" },
-          tabBarButton: () => null,
-          tabBarVisible: false,
-        }}
-        children={() => 
-          <LoginScreen 
-            username={username} 
-            password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
-        />}
-      />
-      <Stack.Screen
-        name="Register"
-        options={{
-          headerShown: false,
-          tabBarStyle: { display: "none" },
-          tabBarButton: () => null,
-          tabBarVisible: false,
-        }}
-        children={() => <RegisterScreen
-          username={username} 
+        children={() => <WellcomeScreen 
+          username={username}
           setUsername={setUsername}
-          />
-        }
+          password={password}
+          setPassword={setPassword}
+          email={email}
+          setEmail={setEmail}
+        />}
       />
       <Stack.Screen
         name="TabsBottom"
         options={{
           headerShown: false,
         }}
-        children={() => TabsBottom({username, setUsername, setPassword})}
+        children={() => TabsBottom({username, setUsername, setPassword, setEmail})}
       />
     </Stack.Navigator>
   );
