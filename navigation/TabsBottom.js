@@ -9,7 +9,7 @@ const Tab = createBottomTabNavigator();
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen"
 
-function MyTabs({username, setPassword, setUsername, setEmail}) {
+function MyTabs({username, setPassword, setUsername, setEmail, homeData}) {
     const navigation = useNavigation();
     
     return (
@@ -45,7 +45,7 @@ function MyTabs({username, setPassword, setUsername, setEmail}) {
         />
         <Tab.Screen
           name="Home"
-          children={() => <HomeScreen />} 
+          children={() => <HomeScreen homeData={homeData} />} 
           options={{
             // headerShown: false,
             headerRight: () => (
@@ -77,13 +77,15 @@ function MyTabs({username, setPassword, setUsername, setEmail}) {
     );
   }
   
-export default function TabsBottom({username, password, setPassword, setUsername, setEmail}) {
+export default function TabsBottom({username, password, setPassword, setUsername, setEmail, homeData}) {
     return (
       <MyTabs 
       username={username}
       password={password} 
       setUsername={setUsername} 
       setPassword={setPassword}
-      setEmail={setEmail} />
+      setEmail={setEmail}
+      homeData={homeData}
+      />
     );
 }

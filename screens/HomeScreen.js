@@ -1,33 +1,26 @@
 import React, {useEffect, useState} from 'react'
 import {Text, View, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
-import Constants from '../constants/constants';
-import {getUsers} from "../services/services"
 
-export default function HomeScreen () {
-  const [users, setusers]  = useState([]);
-
-  useEffect( () => {
-    // fetch(Constants.urlGetAllUsers)
-    // .then(response => response.json())
-    // .then(data => setusers(data.data))
-    // .catch(error =>console.log(error));
-    getUsers()
-    .then(
-      res=> setusers(res.data.data)
-    )
-    .catch(error => console.log(error))
-  },[])
+export default function HomeScreen ({homeData}) {
 
   return (
     <View>
+      <View style={{flexDirection: "row",justifyContent: "center", padding: 10}}>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => console.log("Press")}
+          >
+            <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
-        data={users}
+        data={homeData}
         renderItem={(user) => {
           return (
-            <View style={styles.root}>
+            <View style={styles.list}>
               <View style={styles.item}>
-                <Text>{user.item.name}</Text>
-                <Text>{user.item.email}</Text>
+                <Text>{user.item.tittle}</Text>
+                <Text>{user.item.description}</Text>
               </View>
             </View>
           );
@@ -38,7 +31,20 @@ export default function HomeScreen () {
 }
 
 const styles = StyleSheet.create({
-  root: {
+  button: {
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    backgroundColor: 'chartreuse',
+    elevation: 15,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 25
+  },
+  list: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -50,7 +56,6 @@ const styles = StyleSheet.create({
     margin: 10
   },
   item: {
-    padding: 10,
-    backgroundColor:"green"
+    padding: 10
   },
 })

@@ -2,13 +2,14 @@ import React, {useState, useEffect} from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 
 import WellcomeScreen from "../screens/WellcomeScreen";
-import LoginScreen from "../screens/LoginScreen";
-import RegisterScreen from "../screens/RegisterScreen";
 import TabsBottom from "../navigation/TabsBottom";
+
+import Constants from '../constants/constants';
 
 const Stack = createStackNavigator();
 
 export default function navigation() {
+  const [userId, setUserId] = useState();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -16,8 +17,11 @@ export default function navigation() {
   const [profileData, setProfileData] = useState([]);
 
   useEffect(() => {
-
-  },[])
+    fetch(Constants.urlGetTasks + userId)
+    .then(response => response.json())
+    .then(data => setHomeData(data.data))
+    .catch(error =>console.log(error))
+  }, [userId])
 
   return (
     <Stack.Navigator initialRouteName="Home">
@@ -33,6 +37,7 @@ export default function navigation() {
           setPassword={setPassword}
           email={email}
           setEmail={setEmail}
+          setUserId={setUserId}
         />}
       />
       <Stack.Screen
@@ -40,7 +45,7 @@ export default function navigation() {
         options={{
           headerShown: false,
         }}
-        children={() => TabsBottom({username, setUsername, setPassword, setEmail})}
+        children={() => TabsBottom({username, setUsername, setPassword, setEmail, homeData})}
       />
     </Stack.Navigator>
   );

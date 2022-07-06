@@ -17,6 +17,7 @@ export default function LoginScreen({
   setUsername,
   password,
   setPassword,
+  setUserId
 }) {
   const navigation = useNavigation();
   const [confirmedError, setConfirmedError] = useState(false);
@@ -29,6 +30,7 @@ export default function LoginScreen({
           pass,
           await bcrypt.compare(pass, res.data.password)
         );
+        setUserId(res.data.id);
         return navigation.navigate("TabsBottom", { screen: "Home" });
       } else {
         console.log(

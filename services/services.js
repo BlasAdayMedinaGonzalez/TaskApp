@@ -5,11 +5,11 @@ const getUsers = async() => {
     return await axios.get(Constants.urlGetAllUsers)
 }
 
-const addUser = async() => {
-    return await axios.post(`${APIURL}/employee`, employee)
+const getTasks = async() => {
+    return await axios.get(Constants.urlGetTasks)
 }
 
 export {
     getUsers,
-    addUser
+    getTasks
 }
