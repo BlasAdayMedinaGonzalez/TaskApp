@@ -11,7 +11,8 @@ export default function WellcomeScreen({
   setEmail,
   password,
   setPassword,
-  setUserId
+  setUserId,
+  setRefreshData,
 }) {
   const [isLogin, setIsLogin] = useState(true);
 
@@ -48,6 +49,7 @@ export default function WellcomeScreen({
           setUsername={setUsername}
           setPassword={setPassword}
           setUserId={setUserId}
+          setRefreshData={setRefreshData}
         />
       ) : (
         <RegisterScreen

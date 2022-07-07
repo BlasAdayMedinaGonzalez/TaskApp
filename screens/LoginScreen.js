@@ -17,7 +17,8 @@ export default function LoginScreen({
   setUsername,
   password,
   setPassword,
-  setUserId
+  setUserId,
+  setRefreshData,
 }) {
   const navigation = useNavigation();
   const [confirmedError, setConfirmedError] = useState();
@@ -31,6 +32,8 @@ export default function LoginScreen({
           await bcrypt.compare(pass, res.data.password)
         );
         setUserId(res.data.id);
+        setRefreshData(true);
+        setConfirmedError(undefined);
         return navigation.navigate("TabsBottom", { screen: "Home" });
       } else {
         console.log(
@@ -46,7 +49,7 @@ export default function LoginScreen({
 
   const validateUser = (user, pass) => {
     if (user === "" || pass === "") {
-      setConfirmedError(true)
+      setConfirmedError(true);
       console.log("Na nai otra vex");
     } else {
       fetch(Constants.urlGetAllUsers + user)
@@ -55,27 +58,28 @@ export default function LoginScreen({
           if (res.data.password === null) {
             console.log("Null password");
           } else {
-            setConfirmedError(false)
+            setConfirmedError(false);
             passwordValidation(pass, res);
           }
         })
-        .catch(() =>
-          setConfirmedError(true)
-        );
+        .catch(() => setConfirmedError(true));
     }
   };
 
   let displayMessageStatus;
   if (confirmedError) {
     displayMessageStatus = (
-      <Text style={styles.displayMessageSyleError}>Error logging in, please try again.</Text>
-    )
+      <Text style={styles.displayMessageSyleError}>
+        Error logging in, please try again.
+      </Text>
+    );
   } else if (confirmedError === false) {
     displayMessageStatus = (
-      <Text style={styles.displayMessageSyleSuccess}>Login success, redirecting to Home...</Text>
-    )
+      <Text style={styles.displayMessageSyleSuccess}>
+        Login success, redirecting to Home...
+      </Text>
+    );
   }
-
 
   return (
     <View style={styles.root}>
@@ -164,21 +168,21 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   displayMessageSyleError: {
-    color:"black",
-    marginHorizontal: 10, 
-    backgroundColor:"red", 
-    textAlign:"center", 
-    fontWeight:"bold",
-    marginTop: 10, 
-    borderRadius:10
+    color: "black",
+    marginHorizontal: 10,
+    backgroundColor: "red",
+    textAlign: "center",
+    fontWeight: "bold",
+    marginTop: 10,
+    borderRadius: 10,
   },
   displayMessageSyleSuccess: {
-    color:"black",
-    marginHorizontal: 10, 
-    backgroundColor:"green", 
-    textAlign:"center", 
-    fontWeight:"bold",
-    marginTop: 10, 
-    borderRadius:10
-  }
+    color: "black",
+    marginHorizontal: 10,
+    backgroundColor: "green",
+    textAlign: "center",
+    fontWeight: "bold",
+    marginTop: 10,
+    borderRadius: 10,
+  },
 });

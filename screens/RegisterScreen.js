@@ -35,16 +35,16 @@ export default function RegisterScreen({
       .then((res) => res.json())
       .then((response) => {
         if (response.message === "Bad request. Please fill all fields.") {
-          setConfirmedError(true)
+          setConfirmedError(true);
           console.log("Bad request. Please fill all fields.");
         } else if (response.message === "User was already registered") {
           console.log("User was already registered");
-          setConfirmedError(true)
+          setConfirmedError(true);
           setUsername("");
           setPassword("");
           setEmail("");
         } else {
-          setConfirmedError(false)
+          setConfirmedError(undefined);
           return navigation.navigate("TabsBottom", { screen: "Home" });
         }
       })
@@ -54,12 +54,16 @@ export default function RegisterScreen({
   let displayMessageStatus;
   if (confirmedError) {
     displayMessageStatus = (
-      <Text style={styles.displayMessageSyleError}>Error: User already registered or data no filled.</Text>
-    )
+      <Text style={styles.displayMessageSyleError}>
+        Error: User already registered or data no filled.
+      </Text>
+    );
   } else if (confirmedError === false) {
     displayMessageStatus = (
-      <Text style={styles.displayMessageSyleSuccess}>Register success, redirecting to Home...</Text>
-    )
+      <Text style={styles.displayMessageSyleSuccess}>
+        Register success, redirecting to Home...
+      </Text>
+    );
   }
 
   return (
@@ -143,21 +147,21 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   displayMessageSyleError: {
-    color:"black",
-    marginHorizontal: 10, 
-    backgroundColor:"red", 
-    textAlign:"center", 
-    fontWeight:"bold",
-    marginTop: 10, 
-    borderRadius:10
+    color: "black",
+    marginHorizontal: 10,
+    backgroundColor: "red",
+    textAlign: "center",
+    fontWeight: "bold",
+    marginTop: 10,
+    borderRadius: 10,
   },
   displayMessageSyleSuccess: {
-    color:"black",
-    marginHorizontal: 10, 
-    backgroundColor:"green", 
-    textAlign:"center", 
-    fontWeight:"bold",
-    marginTop: 10, 
-    borderRadius:10
-  }
+    color: "black",
+    marginHorizontal: 10,
+    backgroundColor: "green",
+    textAlign: "center",
+    fontWeight: "bold",
+    marginTop: 10,
+    borderRadius: 10,
+  },
 });
