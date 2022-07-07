@@ -20,7 +20,7 @@ export default function LoginScreen({
   setUserId
 }) {
   const navigation = useNavigation();
-  const [confirmedError, setConfirmedError] = useState(false);
+  const [confirmedError, setConfirmedError] = useState();
 
   const passwordValidation = async (pass, res) => {
     try {
@@ -65,17 +65,21 @@ export default function LoginScreen({
     }
   };
 
-  let isErrorConfirmed;
+  let displayMessageStatus;
   if (confirmedError) {
-    isErrorConfirmed= (
-      <Text style={{color:"red", textAlign:"center", fontWeight:"bold", marginTop:10}}>Error Founded, Please try again</Text>
+    displayMessageStatus = (
+      <Text style={styles.displayMessageSyleError}>Error logging in, please try again.</Text>
+    )
+  } else if (confirmedError === false) {
+    displayMessageStatus = (
+      <Text style={styles.displayMessageSyleSuccess}>Login success, redirecting to Home...</Text>
     )
   }
 
 
   return (
     <View style={styles.root}>
-      {isErrorConfirmed}
+      {displayMessageStatus}
       <View style={styles.loginCase}>
         <View style={styles.input}>
           <TextInput
@@ -159,4 +163,22 @@ const styles = StyleSheet.create({
     color: "blue",
     marginLeft: 5,
   },
+  displayMessageSyleError: {
+    color:"black",
+    marginHorizontal: 10, 
+    backgroundColor:"red", 
+    textAlign:"center", 
+    fontWeight:"bold",
+    marginTop: 10, 
+    borderRadius:10
+  },
+  displayMessageSyleSuccess: {
+    color:"black",
+    marginHorizontal: 10, 
+    backgroundColor:"green", 
+    textAlign:"center", 
+    fontWeight:"bold",
+    marginTop: 10, 
+    borderRadius:10
+  }
 });

@@ -15,12 +15,12 @@ export default function HomeScreen ({homeData}) {
       </View>
       <FlatList
         data={homeData}
-        renderItem={(user) => {
+        renderItem={(task) => {
           return (
             <View style={styles.list}>
               <View style={styles.item}>
-                <Text>{user.item.tittle}</Text>
-                <Text>{user.item.description}</Text>
+                <Text>{task.item.tittle}</Text>
+                <Text>{task.item.description}</Text>
               </View>
             </View>
           );

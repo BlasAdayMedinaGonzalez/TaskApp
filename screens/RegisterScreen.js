@@ -19,7 +19,7 @@ export default function RegisterScreen({
   setPassword,
 }) {
   const navigation = useNavigation();
-  const [confirmedError, setConfirmedError] = useState(false);
+  const [confirmedError, setConfirmedError] = useState();
 
   const onSignUpPressed = () => {
     const submitUser = {
@@ -51,16 +51,20 @@ export default function RegisterScreen({
       .catch((error) => console.error("Error:", error));
   };
 
-  let isErrorConfirmed;
+  let displayMessageStatus;
   if (confirmedError) {
-    isErrorConfirmed= (
-      <Text style={{color:"red", textAlign:"center", fontWeight:"bold", marginTop:10}}>Error Founded, Please try again</Text>
+    displayMessageStatus = (
+      <Text style={styles.displayMessageSyleError}>Error: User already registered or data no filled.</Text>
+    )
+  } else if (confirmedError === false) {
+    displayMessageStatus = (
+      <Text style={styles.displayMessageSyleSuccess}>Register success, redirecting to Home...</Text>
     )
   }
 
   return (
     <View style={styles.root}>
-      {isErrorConfirmed}
+      {displayMessageStatus}
       <View style={styles.loginCase}>
         <View style={styles.input}>
           <TextInput
@@ -138,4 +142,22 @@ const styles = StyleSheet.create({
     color: "blue",
     marginLeft: 5,
   },
+  displayMessageSyleError: {
+    color:"black",
+    marginHorizontal: 10, 
+    backgroundColor:"red", 
+    textAlign:"center", 
+    fontWeight:"bold",
+    marginTop: 10, 
+    borderRadius:10
+  },
+  displayMessageSyleSuccess: {
+    color:"black",
+    marginHorizontal: 10, 
+    backgroundColor:"green", 
+    textAlign:"center", 
+    fontWeight:"bold",
+    marginTop: 10, 
+    borderRadius:10
+  }
 });

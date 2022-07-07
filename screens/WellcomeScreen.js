@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: "aqua",
-    marginTop: 40,
+    paddingTop: 60,
   },
   imageCase: {
     padding: 30,
