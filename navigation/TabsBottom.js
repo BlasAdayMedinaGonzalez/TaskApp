@@ -15,6 +15,7 @@ function MyTabs({
   setUsername,
   setEmail,
   homeData,
+  setHomeData,
   setRefreshData,
 }) {
   const navigation = useNavigation();
@@ -53,7 +54,7 @@ function MyTabs({
       <Tab.Screen
         name="Home"
         children={() => (
-          <HomeScreen homeData={homeData} setRefreshData={setRefreshData} />
+          <HomeScreen homeData={homeData} setRefreshData={setRefreshData} setHomeData={setHomeData} />
         )}
         options={{
           // headerShown: false,
@@ -92,6 +93,7 @@ export default function TabsBottom({
   setUsername,
   setEmail,
   homeData,
+  setHomeData,
   setRefreshData,
 }) {
   return (
@@ -102,6 +104,7 @@ export default function TabsBottom({
       setPassword={setPassword}
       setEmail={setEmail}
       homeData={homeData}
+      setHomeData={setHomeData}
       setRefreshData={setRefreshData}
     />
   );

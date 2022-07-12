@@ -57,7 +57,8 @@ export default function navigation() {
             setPassword,
             setEmail,
             homeData,
-            setRefreshData,
+            setHomeData,
+            setRefreshData
           })
         }
       />

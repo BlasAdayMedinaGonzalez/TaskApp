@@ -5,13 +5,15 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/Ionicons";
 import Constants from "../constants/constants";
 
-export default function HomeScreen({ homeData, setRefreshData }) {
+export default function HomeScreen({ homeData, setRefreshData, setHomeData }) {
   const deleteTask = (taskId) => {
+    console.log(homeData);
     fetch(Constants.urlGetTasks + taskId, {
       method: "DELETE",
       headers: {
@@ -22,8 +24,12 @@ export default function HomeScreen({ homeData, setRefreshData }) {
       .then((res) => res.json())
       .then((res) => console.log(res.message))
       .catch((err) => console.error(err));
+
     setRefreshData(true);
+    // const filteredData = homeData.filter(task => task.task_id != taskId);
+    // setHomeData(filteredData);
   };
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -39,20 +45,21 @@ export default function HomeScreen({ homeData, setRefreshData }) {
       </View>
       <FlatList
         data={homeData}
+        keyExtractor={(item) => item.task_id}
         renderItem={(task) => {
           return (
-            <View style={styles.list}>
-              <View style={styles.item}>
-                <Text>Tittle: {task.item.tittle}</Text>
-                <Text>Description: {task.item.description}</Text>
+              <View style={styles.Container}>
+                <View style={styles.item}>
+                  <Text>Tittle: {task.item.tittle}</Text>
+                  <Text>Description: {task.item.description}</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.buttonDelete}
+                  onPress={() => deleteTask(task.item.task_id)}
+                >
+                  <Icon name="trash" size={25} />
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                style={styles.buttonDelete}
-                onPress={() => deleteTask(task.item.task_id)}
-              >
-                <Icon name="trash" size={25} />
-              </TouchableOpacity>
-            </View>
           );
         }}
       />
@@ -83,9 +90,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 25,
   },
-  list: {
-    flex: 1,
-    justifyContent: "center",
+  Container: {
     alignItems: "center",
     padding: 20,
     backgroundColor: "pink",
@@ -93,6 +98,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     margin: 10,
+    //ios
+    shadowOpacity: 0.08,
+    shadowOffset: {
+      width: 0,
+      height: 20,
+    },
+    shadowRadius: 10,
+    //android
+    elevation: 5,
   },
   item: {
     padding: 10,

@@ -23,47 +23,38 @@ export default function LoginScreen({
   const navigation = useNavigation();
   const [confirmedError, setConfirmedError] = useState();
 
-  const passwordValidation = async (pass, res) => {
+  const passwordValidation = async (pass, data) => {
     try {
-      if (await bcrypt.compare(pass, res.data.password)) {
-        console.log(
-          "pasa por aquí",
-          pass,
-          await bcrypt.compare(pass, res.data.password)
-        );
-        setUserId(res.data.id);
+      console.log("pasa por aquí",);
+      if (await bcrypt.compare(pass, data.password)) {
+        console.log("pasa por aquí",);
+        setUserId(data.id);
         setRefreshData(true);
         setConfirmedError(undefined);
         return navigation.navigate("TabsBottom", { screen: "Home" });
-      } else {
-        console.log(
-          "Incorrecto",
-          pass,
-          await bcrypt.compare(pass, res.data.password)
-        );
       }
     } catch (error) {
-      console.log(error);
+      console.log("Incorrecto");
+      setConfirmedError(true);
     }
   };
 
-  const validateUser = (user, pass) => {
-    if (user === "" || pass === "") {
-      setConfirmedError(true);
-      console.log("Na nai otra vex");
-    } else {
-      fetch(Constants.urlGetAllUsers + user)
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.data.password === null) {
-            console.log("Null password");
-          } else {
-            setConfirmedError(false);
-            passwordValidation(pass, res);
-          }
-        })
-        .catch(() => setConfirmedError(true));
+  const validateUser = async(user, pass) => {
+    try {
+      const res = await fetch(Constants.urlGetAllUsers + user)
+      const resObject = await res.json();
+      if (user === "" || pass === "") {
+        setConfirmedError(true);
+        console.log("Na nai otra vex");
+      } else {
+        setConfirmedError(false);
+        passwordValidation(pass, resObject.data);
+      }
+    } catch (error) {
+      setConfirmedError(true)
+      console.log(error);
     }
+    
   };
 
   let displayMessageStatus;
