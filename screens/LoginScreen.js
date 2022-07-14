@@ -21,56 +21,61 @@ export default function LoginScreen({
   setRefreshData,
 }) {
   const navigation = useNavigation();
-  const [confirmedError, setConfirmedError] = useState();
+  const [displayMessageStatus, setDisplayMessageStatus] = useState();
 
-  const passwordValidation = async (pass, data) => {
-    try {
-      console.log("pasa por aquí",);
-      if (await bcrypt.compare(pass, data.password)) {
-        console.log("pasa por aquí",);
-        setUserId(data.id);
-        setRefreshData(true);
-        setConfirmedError(undefined);
-        return navigation.navigate("TabsBottom", { screen: "Home" });
-      }
-    } catch (error) {
-      console.log("Incorrecto");
-      setConfirmedError(true);
+  const handleError = (status, message) => {
+    if (status) {
+      setDisplayMessageStatus(
+        <Text style={styles.displayMessageSyleError}>{message}</Text>
+      );
+    }
+    if (status === false) {
+      setDisplayMessageStatus(
+        <Text style={styles.displayMessageSyleSuccess}>{message}</Text>
+      );
     }
   };
 
-  const validateUser = async(user, pass) => {
+  const passwordValidation = async (pass, dataPassword) => {
     try {
-      const res = await fetch(Constants.urlGetAllUsers + user)
-      const resObject = await res.json();
-      if (user === "" || pass === "") {
-        setConfirmedError(true);
-        console.log("Na nai otra vex");
-      } else {
-        setConfirmedError(false);
-        passwordValidation(pass, resObject.data);
+      if (await bcrypt.compare(pass, dataPassword)) {
+        return true;
       }
+      return false;
     } catch (error) {
-      setConfirmedError(true)
+      console.log("Contraseña vacía");
+      return false;
+    }
+  };
+
+  const validateUser = async (user, pass) => {
+    try {
+      const res = await fetch(Constants.urlGetAllUsers + user);
+      const resData = await res.json();
+
+      if (user === "" || pass === "") {
+        handleError(true, "Error: Please fill all fields.");
+        return;
+      }
+      if (resData.message === "User is not found") {
+        handleError(true, resData.message);
+        return;
+      }
+
+      if (!(await passwordValidation(pass, resData.data.password))) {
+        console.log("Contraseña incorrecta tete");
+        handleError(true, "Error: Password Incorrect");
+        return;
+      }
+
+      handleError(false, "Login success, navigating to Home");
+      setUserId(resData.data.id);
+      setRefreshData(true);
+      navigation.navigate("TabsBottom", { screen: "Home" });
+    } catch (error) {
       console.log(error);
     }
-    
   };
-
-  let displayMessageStatus;
-  if (confirmedError) {
-    displayMessageStatus = (
-      <Text style={styles.displayMessageSyleError}>
-        Error logging in, please try again.
-      </Text>
-    );
-  } else if (confirmedError === false) {
-    displayMessageStatus = (
-      <Text style={styles.displayMessageSyleSuccess}>
-        Login success, redirecting to Home...
-      </Text>
-    );
-  }
 
   return (
     <View style={styles.root}>
@@ -159,21 +164,21 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   displayMessageSyleError: {
-    color: "black",
+    color: "darkred",
     marginHorizontal: 10,
-    backgroundColor: "red",
+    backgroundColor: "crimson",
     textAlign: "center",
     fontWeight: "bold",
+    padding: 5,
     marginTop: 10,
-    borderRadius: 10,
   },
   displayMessageSyleSuccess: {
-    color: "black",
+    color: "chartreuse",
     marginHorizontal: 10,
     backgroundColor: "green",
     textAlign: "center",
     fontWeight: "bold",
+    padding: 5,
     marginTop: 10,
-    borderRadius: 10,
   },
 });

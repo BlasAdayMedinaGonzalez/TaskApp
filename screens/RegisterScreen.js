@@ -19,7 +19,20 @@ export default function RegisterScreen({
   setPassword,
 }) {
   const navigation = useNavigation();
-  const [confirmedError, setConfirmedError] = useState();
+  const [displayMessageStatus, setDisplayMessageStatus] = useState();
+
+  const handleError = (status, message) => {
+    if (status) {
+      setDisplayMessageStatus(
+        <Text style={styles.displayMessageSyleError}>{message}</Text>
+      );
+    }
+    if (status === false) {
+      setDisplayMessageStatus(
+        <Text style={styles.displayMessageSyleSuccess}>{message}</Text>
+      );
+    }
+  };
 
   const onSignUpPressed = () => {
     const submitUser = {
@@ -35,36 +48,21 @@ export default function RegisterScreen({
       .then((res) => res.json())
       .then((response) => {
         if (response.message === "Bad request. Please fill all fields.") {
-          setConfirmedError(true);
-          console.log("Bad request. Please fill all fields.");
-        } else if (response.message === "User was already registered") {
-          console.log("User was already registered");
-          setConfirmedError(true);
+          handleError(true, response.message);
+          return;
+        }
+        if (response.message === "User was already registered") {
+          handleError(true, response.message);
           setUsername("");
           setPassword("");
           setEmail("");
-        } else {
-          setConfirmedError(undefined);
-          return navigation.navigate("TabsBottom", { screen: "Home" });
+          return;
         }
+        handleError(false, "Register succes, navigating to Home...");
+        return navigation.navigate("TabsBottom", { screen: "Home" });
       })
       .catch((error) => console.error("Error:", error));
   };
-
-  let displayMessageStatus;
-  if (confirmedError) {
-    displayMessageStatus = (
-      <Text style={styles.displayMessageSyleError}>
-        Error: User already registered or data no filled.
-      </Text>
-    );
-  } else if (confirmedError === false) {
-    displayMessageStatus = (
-      <Text style={styles.displayMessageSyleSuccess}>
-        Register success, redirecting to Home...
-      </Text>
-    );
-  }
 
   return (
     <View style={styles.root}>
@@ -147,13 +145,13 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   displayMessageSyleError: {
-    color: "black",
+    color: "darkred",
     marginHorizontal: 10,
-    backgroundColor: "red",
+    backgroundColor: "crimson",
     textAlign: "center",
     fontWeight: "bold",
+    padding: 5,
     marginTop: 10,
-    borderRadius: 10,
   },
   displayMessageSyleSuccess: {
     color: "black",
