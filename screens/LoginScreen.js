@@ -71,7 +71,7 @@ export default function LoginScreen({
       handleError(false, "Login success, navigating to Home");
       setUserId(resData.data.id);
       setRefreshData(true);
-      navigation.navigate("TabsBottom", { screen: "Home" });
+      return navigation.navigate("TabsBottom", { screen: "Home" });
     } catch (error) {
       console.log(error);
     }

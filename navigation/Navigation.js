@@ -19,6 +19,10 @@ export default function navigation() {
 
   useEffect(() => {
     setRefreshData(false);
+    fetch(Constants.ulrGetUserById + userId)
+      .then((response) => response.json())
+      .then((data) => setProfileData(data.data))
+      .catch((error) => console.log(error));
     fetch(Constants.urlGetTasks + userId)
       .then((response) => response.json())
       .then((data) => setHomeData(data.data))
@@ -52,13 +56,13 @@ export default function navigation() {
         }}
         children={() =>
           TabsBottom({
-            username,
             setUsername,
             setPassword,
             setEmail,
             homeData,
             setHomeData,
-            setRefreshData
+            setRefreshData,
+            profileData
           })
         }
       />

@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 import * as ImagePicker from "expo-image-picker";
 
-export default function ProfileScreen({ username }) {
+export default function ProfileScreen({ profileData }) {
   const [image, setImage] = useState(null);
 
   const imagePicker = async () => {
@@ -21,7 +21,6 @@ export default function ProfileScreen({ username }) {
         }
         console.log(result);
       }
-      
     } catch (error) {
       console.log(error);
     }
@@ -30,13 +29,23 @@ export default function ProfileScreen({ username }) {
   return (
     <View style={styles.root}>
       <View style={styles.profileItem}>
-        <TouchableOpacity style={{alignItems: "center"}} onPress={imagePicker}>
-          {image ? <Image source={{ uri: image }} style={styles.avatar} /> : <Image source={require("../assets/Profile_avatar.png")} style={styles.avatar} /> }
-          <Text >Cambiar Foto</Text>
+        <TouchableOpacity
+          style={{ alignItems: "center" }}
+          onPress={imagePicker}
+        >
+          {image ? (
+            <Image source={{ uri: image }} style={styles.avatar} />
+          ) : (
+            <Image
+              source={require("../assets/Profile_avatar.png")}
+              style={styles.avatar}
+            />
+          )}
+          <Text>Cambiar Foto</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.itemText}>Nombre perfil: {username} </Text>
-      <Text style={styles.itemText}>Correo: </Text>
+      <Text style={styles.itemText}>Nombre perfil: {profileData.name} </Text>
+      <Text style={styles.itemText}>Correo: {profileData.email}</Text>
     </View>
   );
 }

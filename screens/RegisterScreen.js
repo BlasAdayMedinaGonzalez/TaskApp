@@ -17,6 +17,8 @@ export default function RegisterScreen({
   setUsername,
   password,
   setPassword,
+  setUserId,
+  setRefreshData
 }) {
   const navigation = useNavigation();
   const [displayMessageStatus, setDisplayMessageStatus] = useState();
@@ -58,7 +60,10 @@ export default function RegisterScreen({
           setEmail("");
           return;
         }
+
         handleError(false, "Register succes, navigating to Home...");
+        setUserId(response.data.id);
+        setRefreshData(true);
         return navigation.navigate("TabsBottom", { screen: "Home" });
       })
       .catch((error) => console.error("Error:", error));

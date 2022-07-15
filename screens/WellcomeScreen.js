@@ -59,6 +59,8 @@ export default function WellcomeScreen({
           setUsername={setUsername}
           password={password}
           setPassword={setPassword}
+          setUserId={setUserId}
+          setRefreshData={setRefreshData}
         />
       )}
     </View>
