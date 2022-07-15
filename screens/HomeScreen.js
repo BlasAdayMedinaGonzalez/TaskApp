@@ -10,10 +10,15 @@ import {
 
 import Icon from "react-native-vector-icons/Ionicons";
 import Constants from "../constants/constants";
+import ModalHomeAdd from "../components/ModalHomeAdd";
+import ModalHomeEdit from "../components/ModalHomeEdit";
 
-export default function HomeScreen({ homeData, setRefreshData, setHomeData }) {
+export default function HomeScreen({ homeData, setRefreshData, userId }) {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
+  const [taskItem, setTaskItem] = useState();
+
   const deleteTask = (taskId) => {
-    console.log(homeData);
     fetch(Constants.urlGetTasks + taskId, {
       method: "DELETE",
       headers: {
@@ -26,33 +31,38 @@ export default function HomeScreen({ homeData, setRefreshData, setHomeData }) {
       .catch((err) => console.error(err));
 
     setRefreshData(true);
-    // const filteredData = homeData.filter(task => task.task_id != taskId);
-    // setHomeData(filteredData);
   };
-
 
   return (
     <View style={{ flex: 1 }}>
-      <View
-        style={{ flexDirection: "row", justifyContent: "center", padding: 10 }}
-      >
-        <TouchableOpacity
-          style={styles.buttonAdd}
-          onPress={() => console.log("Press")}
-        >
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
-      </View>
+      <ModalHomeEdit taskItem={taskItem} modalVisibleEdit={modalVisibleEdit} setModalVisibleEdit={setModalVisibleEdit} setRefreshData={setRefreshData} />
       <FlatList
         data={homeData}
         keyExtractor={(item) => item.task_id}
         renderItem={(task) => {
           return (
-              <View style={styles.Container}>
-                <View style={styles.item}>
-                  <Text>Tittle: {task.item.tittle}</Text>
-                  <Text>Description: {task.item.description}</Text>
+            <View style={styles.Container}>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                }}
+              >
+                <View style={styles.items}>
+                  <Text style={styles.titleText}>Tittle</Text>
+                  <Text>{task.item.tittle}</Text>
+                  <Text style={styles.titleText}>Description</Text>
+                  <Text>{task.item.description}</Text>
                 </View>
+                
+                <TouchableOpacity
+                  style={styles.buttonEdit}
+                  onPress={() => {setModalVisibleEdit(true); setTaskItem(task.item)}}
+                >
+                  <Icon name="create-outline" size={25} />
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.buttonDelete}
                   onPress={() => deleteTask(task.item.task_id)}
@@ -60,14 +70,42 @@ export default function HomeScreen({ homeData, setRefreshData, setHomeData }) {
                   <Icon name="trash" size={25} />
                 </TouchableOpacity>
               </View>
+            </View>
           );
         }}
       />
+      <ModalHomeAdd
+        homeData={homeData}
+        setRefreshData={setRefreshData}
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        userId={userId}
+      />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          padding: 10,
+          marginRight: 10,
+          marginBottom: 10,
+        }}
+      >
+        <TouchableOpacity
+          style={styles.buttonAdd}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  titleText: {
+    fontWeight: "bold",
+    fontSize: 20
+  },
   buttonAdd: {
     width: 50,
     height: 50,
@@ -85,13 +123,23 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "red",
     elevation: 15,
+    margin: 5,
+  },
+  buttonEdit: {
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    backgroundColor: "yellow",
+    elevation: 15,
+    margin: 5,
   },
   buttonText: {
     color: "white",
     fontSize: 25,
   },
   Container: {
-    alignItems: "center",
     padding: 20,
     backgroundColor: "pink",
     borderColor: "black",
@@ -108,7 +156,7 @@ const styles = StyleSheet.create({
     //android
     elevation: 5,
   },
-  item: {
-    padding: 10,
+  items: {
+    width: 125
   },
 });

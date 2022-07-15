@@ -10,13 +10,11 @@ import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 function MyTabs({
-  setPassword,
-  setUsername,
-  setEmail,
   homeData,
+  profileData,
   setHomeData,
   setRefreshData,
-  profileData
+  userId
 }) {
   const navigation = useNavigation();
 
@@ -24,7 +22,7 @@ function MyTabs({
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
         name="Profile"
-        children={() => <ProfileScreen profileData={profileData} />}
+        children={() => <ProfileScreen profileData={profileData} setRefreshData={setRefreshData} />}
         options={{
           // headerShown: false,
           headerRight: () => (
@@ -32,9 +30,6 @@ function MyTabs({
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("Wellcome");
-                  setUsername("");
-                  setPassword("");
-                  setEmail("");
                 }}
               >
                 <Icon name="log-out-outline" size={25} />
@@ -54,7 +49,7 @@ function MyTabs({
       <Tab.Screen
         name="Home"
         children={() => (
-          <HomeScreen homeData={homeData} setRefreshData={setRefreshData} setHomeData={setHomeData} />
+          <HomeScreen homeData={homeData} setRefreshData={setRefreshData} setHomeData={setHomeData} userId={userId} />
         )}
         options={{
           // headerShown: false,
@@ -63,9 +58,6 @@ function MyTabs({
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("Wellcome");
-                  setUsername("");
-                  setPassword("");
-                  setEmail("");
                 }}
               >
                 <Icon name="log-out-outline" size={25} />
@@ -87,25 +79,19 @@ function MyTabs({
 }
 
 export default function TabsBottom({
-  password,
-  setPassword,
-  setUsername,
-  setEmail,
   homeData,
   setHomeData,
   setRefreshData,
-  profileData
+  profileData,
+  userId
 }) {
   return (
     <MyTabs
-      password={password}
-      setUsername={setUsername}
-      setPassword={setPassword}
-      setEmail={setEmail}
       homeData={homeData}
       setHomeData={setHomeData}
       setRefreshData={setRefreshData}
       profileData={profileData}
+      userId={userId}
     />
   );
 }

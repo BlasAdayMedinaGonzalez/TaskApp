@@ -11,14 +11,14 @@ const Stack = createStackNavigator();
 export default function navigation() {
   const [refreshData, setRefreshData] = useState(false);
   const [userId, setUserId] = useState();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
   const [homeData, setHomeData] = useState([]);
   const [profileData, setProfileData] = useState([]);
 
   useEffect(() => {
     setRefreshData(false);
+    if (!userId) {
+      return;
+    }
     fetch(Constants.ulrGetUserById + userId)
       .then((response) => response.json())
       .then((data) => setProfileData(data.data))
@@ -27,6 +27,7 @@ export default function navigation() {
       .then((response) => response.json())
       .then((data) => setHomeData(data.data))
       .catch((error) => console.log(error));
+      console.log("Ha pasado por aqui, Data actualizada")
   }, [refreshData]);
 
   return (
@@ -38,12 +39,6 @@ export default function navigation() {
         }}
         children={() => (
           <WellcomeScreen
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
-            email={email}
-            setEmail={setEmail}
             setUserId={setUserId}
             setRefreshData={setRefreshData}
           />
@@ -56,13 +51,11 @@ export default function navigation() {
         }}
         children={() =>
           TabsBottom({
-            setUsername,
-            setPassword,
-            setEmail,
             homeData,
+            profileData,
             setHomeData,
             setRefreshData,
-            profileData
+            userId
           })
         }
       />

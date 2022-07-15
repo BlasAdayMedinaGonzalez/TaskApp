@@ -13,15 +13,14 @@ import bcrypt from "bcryptjs";
 import Constants from "../constants/constants";
 
 export default function LoginScreen({
-  username,
-  setUsername,
-  password,
-  setPassword,
   setUserId,
   setRefreshData,
 }) {
   const navigation = useNavigation();
   const [displayMessageStatus, setDisplayMessageStatus] = useState();
+  
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleError = (status, message) => {
     if (status) {

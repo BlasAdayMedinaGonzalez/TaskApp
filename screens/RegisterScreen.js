@@ -11,17 +11,15 @@ import { useNavigation } from "@react-navigation/native";
 import Constants from "../constants/constants";
 
 export default function RegisterScreen({
-  email,
-  setEmail,
-  username,
-  setUsername,
-  password,
-  setPassword,
   setUserId,
   setRefreshData
 }) {
   const navigation = useNavigation();
   const [displayMessageStatus, setDisplayMessageStatus] = useState();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleError = (status, message) => {
     if (status) {
